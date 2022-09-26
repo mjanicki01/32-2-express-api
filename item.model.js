@@ -19,13 +19,32 @@ function postNewItem(item) {
 }
 
 function getItemByName(name) {
+    const item = items.filter(el => el.name === name)
+    return item[0]
+}
 
+function updateItem(name, newName, newPrice) {
+    const item = items.filter(el => el.name === name)
+    item[0].name = newName
+    item[0].price = newPrice
+    return item[0]
+}
+
+function deleteItem(name) {
+    const deletedItem = items.filter(el => el.name === name)
+    for( var i = 0; i < items.length; i++){     
+        if ( items[i] === deletedItem) { 
+            items.splice(i, 1); 
+        }
+        return items
+    }
+    return deleteItem
 }
 
 module.exports = {
     getAllItems,
     postNewItem,
     getItemByName,
-    // updateItem,
-    // deleteItem
+    updateItem,
+    deleteItem
 }

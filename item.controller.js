@@ -23,16 +23,42 @@ function httpPostItems(req, res) {
 }
 
 function httpGetItemByName(req, res) {
-    return res.status(200).json(Array.from(items.values()))
+    const item = req.params.name
+
+    if (item) {
+        return res.status(200).json(getItemByName(item))
+    } else {
+        return res.status(404).json({error: "Item not found"})
+    }
 }
 
 function httpUpdateItem(req, res) {
-    return res.status(200).json(Array.from(items.values()))
+    const item = req.params.name
+
+    if (item) {
+        const newName = req.body.name
+        const newPrice = req.body.price
+
+        if (newName && newPrice) {
+            updateItem(item, newName, newPrice)
+            return res.status(204).json({updated: item})
+        } else {
+            return res.status(400).json({error: "Missing new name and/or price"})
+        }
+    } else {
+        return res.status(404).json({error: "Item not found"})
+    }
 }
 
 function httpDeleteItem(req, res) {
-    return res.status(200).json(Array.from(items.values()))
-}
+    const item = req.params.name
+    
+    if (item) {
+        deleteItem(item)
+        return res.status(200).json({deleted: item})
+    } else {
+        return res.status(404).json({error: "Item not found"})
+    }}
 
 
 module.exports = {
